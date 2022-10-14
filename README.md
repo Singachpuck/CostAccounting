@@ -50,3 +50,9 @@
     - Method:  
       ```GET```
     - Query parameter is optional
+
+### To run locally:
+
+- clone this repository
+- make sure you have flask installed: ```flask --version```
+- in the repository root run: ```flask --app rest run –host 0.0.0.0```
