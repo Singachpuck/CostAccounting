@@ -1,15 +1,17 @@
-from rest.dao.UserDao import getUsers, createUser as create, getUserById as getById
+from rest.dao.impl.orm.UserDaoORM import UserDaoORM
 from rest.model.User import User
+
+userDao = UserDaoORM()
 
 
 def getAllUsers():
-    return list(map(lambda user: {'id': user.id, 'name': user.name}, getUsers()))
+    return list(map(lambda user: user.to_dict(), userDao.getUsers()))
 
 
 def getUserById(id):
-    return getById(id)
+    return userDao.getUserById(id)
 
 
 def createUser(data):
     newUser = User(name=data['name'])
-    create(newUser)
+    userDao.createUser(newUser)

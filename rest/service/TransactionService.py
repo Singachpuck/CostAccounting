@@ -1,24 +1,40 @@
 from datetime import datetime
 
-from rest.dao.TransactionDao import getTransactionsByUserId as getByUserId
-from rest.dao.TransactionDao import getTransactionsByUserIdAndCategory as getByUserIdAndCategory, \
-    createTransaction as create
+from rest.dao.impl.orm.TransactionDaoORM import TransactionDaoORM
 from rest.model.Transaction import Transaction
+from rest.service.AccountService import *
 from rest.service.CategoryService import getCategoryByName, getCategoryById
-from rest.service.UserService import getUserById
+
+transactionDao = TransactionDaoORM()
 
 
 def getTransactionsByUserId(userId):
-    return list(map(lambda transaction: transaction.to_dict(), getByUserId(userId)))
+    return list(map(lambda transaction: transaction.to_dict(), transactionDao.getTransactionsByUserId(userId)))
 
 
 def getTransactionsByUserIdAndCategory(userId, categoryName):
+    category = getCategoryByName(categoryName)
+    if category is None:
+        raise AttributeError(f'Category {categoryName} doesn\'t exist')
+
     return list(map(lambda transaction: transaction.to_dict(),
-                    getByUserIdAndCategory(userId, getCategoryByName(categoryName))))
+                    transactionDao.getTransactionsByUserIdAndCategory(userId, category)))
 
 
 def createTransaction(data):
-    user = getUserById(data['userId'])
+    amount = float(data['amount'])
     category = getCategoryById(data['categoryId'])
-    newTransaction = Transaction(user=user, category=category, timestamp=datetime.now(), amount=data['amount'])
-    create(newTransaction)
+    account_from = getAccountById(data['accountFrom'])
+    account_to = getAccountById(data['accountTo'])
+
+    if account_to.id == account_from.id:
+        raise AttributeError('Transaction between the same accounts is not allowed')
+
+    withdraw(account_from, amount)
+    deposit(account_to, amount)
+    newTransaction = Transaction(account_to=account_to,
+                                 account_from=account_from,
+                                 category=category,
+                                 timestamp=datetime.now(),
+                                 amount=amount)
+    transactionDao.createTransaction(newTransaction)

@@ -5,8 +5,9 @@ from rest.service.CategoryService import getAllCategories, createCategory as cre
 from rest.service.TransactionService import getTransactionsByUserId, getTransactionsByUserIdAndCategory, \
     createTransaction as createTransactionService
 from rest.service.UserService import createUser as createUserService
+from rest.service.AccountService import createAccount as createAccountService, getAllAccounts
 
-BASE_URL = '/api/v1'
+BASE_URL = '/api/v2'
 
 
 @app.route(BASE_URL + '/categories')
@@ -32,6 +33,21 @@ def createUser():
     return {'status': 'OK'}, 201
 
 
+@app.route(BASE_URL + '/accounts', methods=['GET'])
+def getAccounts():
+    return jsonify(getAllAccounts())
+
+
+@app.route(BASE_URL + '/accounts', methods=['POST'])
+def createAccount():
+    data = request.get_json()
+    if data is None or 'user' not in data or 'amount' not in data:
+        return {'status': 'KO', 'message': 'Bad Request'}, 400
+
+    createAccountService(data)
+    return {'status': 'OK'}, 201
+
+
 @app.route(BASE_URL + '/users/<int:userId>/transactions')
 def getUserTransactions(userId):
     try:
@@ -45,7 +61,10 @@ def getUserTransactions(userId):
 @app.route(BASE_URL + '/transactions', methods=['POST'])
 def createTransaction():
     data = request.get_json()
-    if data is None or 'userId' not in data or 'categoryId' not in data or 'amount' not in data:
+    if data is None or 'accountTo' not in data \
+            or 'accountFrom' not in data \
+            or 'categoryId' not in data \
+            or 'amount' not in data:
         return {'status': 'KO', 'message': 'Bad Request'}, 400
     try:
         createTransactionService(data)
