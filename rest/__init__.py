@@ -40,6 +40,3 @@ parent_blp.register_blueprint(transaction_blueprint)
 
 api = Api(app)
 api.register_blueprint(parent_blp)
-
-
-from rest import views

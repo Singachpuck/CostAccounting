@@ -1,8 +1,8 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint
 
-from rest.schema.user import UserSchema
 from rest.schema.message import MessageSchemaOK
+from rest.schema.user import UserSchema
 from rest.service.UserService import createUser
 
 blp = Blueprint('user', __name__, url_prefix='users', description='Operations on User')

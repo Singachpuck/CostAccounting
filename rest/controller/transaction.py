@@ -1,10 +1,9 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 
-from rest.schema.transaction import TransactionSchema
 from rest.schema.category import CategoryQuerySchema
 from rest.schema.message import MessageSchemaOK
-from rest.schema.user import UserPathVariableSchema
+from rest.schema.transaction import TransactionSchema
 from rest.service.TransactionService import createTransaction, getTransactionsByUserIdAndCategory, \
     getTransactionsByUserId
 
