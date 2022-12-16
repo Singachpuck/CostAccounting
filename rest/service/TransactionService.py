@@ -9,10 +9,18 @@ transactionDao = TransactionDaoORM()
 
 
 def getTransactionsByUserId(userId):
+    user = getUserById(userId)
+    if user is None:
+        raise AttributeError(f'User with id {userId} doesn\'t exist')
+
     return list(map(lambda transaction: transaction.to_dict(), transactionDao.getTransactionsByUserId(userId)))
 
 
 def getTransactionsByUserIdAndCategory(userId, categoryName):
+    user = getUserById(userId)
+    if user is None:
+        raise AttributeError(f'User with id {userId} doesn\'t exist')
+
     category = getCategoryByName(categoryName)
     if category is None:
         raise AttributeError(f'Category {categoryName} doesn\'t exist')
