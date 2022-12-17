@@ -5,6 +5,8 @@
 ## Release notes:
 - **Add Account entity (Variant 3)**
 - Update version of api to ```v2```
+- Add validation
+- Add database support
 - You can add accounts for a specific user
 - You can view created accounts
 - Now you can create transactions between 2 accounts (see endpoint description)
