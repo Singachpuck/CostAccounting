@@ -88,3 +88,8 @@
   For testing purposes you can use project database under the path ```/db/database.db```
 - In the repository root run:
   - ```flask --app rest run```
+
+## Deployment details
+- The application has been deployed to the https://render.com/ manually.  
+- The service automatically deploys an application every time the commit to main branch is made. 
+- You can access this application by the following path: https://cost-accounting.onrender.com
