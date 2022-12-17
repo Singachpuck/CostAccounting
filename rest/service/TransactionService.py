@@ -31,9 +31,9 @@ def getTransactionsByUserIdAndCategory(userId, categoryName):
 
 def createTransaction(data):
     amount = float(data['amount'])
-    category = getCategoryById(data['categoryId'])
-    account_from = getAccountById(data['accountFrom'])
-    account_to = getAccountById(data['accountTo'])
+    category = getCategoryById(data['category'])
+    account_from = getAccountById(data['account_from'])
+    account_to = getAccountById(data['account_to'])
 
     if account_to.id == account_from.id:
         raise AttributeError('Transaction between the same accounts is not allowed')

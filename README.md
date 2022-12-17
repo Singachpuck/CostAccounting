@@ -67,10 +67,10 @@
     - Payload:
       ```
       {
-          "accountFrom": "int",
-          "accountTo": "int",
-          "categoryId": "int",
-          "amount": "decimal"
+           "account_from": "int",
+           "account_to": "int",
+           "amount": "decimal",
+           "category": "int"
       }
       ```
 - Get transactions for user with category
