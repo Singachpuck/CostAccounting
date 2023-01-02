@@ -7,4 +7,4 @@ class CategoryQuerySchema(ma.Schema):
 
 class CategorySchema(ma.Schema):
     id = ma.fields.Int(dump_only=True)
-    name = ma.fields.String(validate=validate.Length(min=1))
+    name = ma.fields.String(required=True, validate=validate.Length(min=1))

@@ -2,3 +2,5 @@ Flask==2.2.2
 flask-sqlalchemy
 flask-smorest
 marshmallow==3.19.0
+flask-jwt-extended
+passlib

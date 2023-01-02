@@ -1,9 +1,9 @@
 from flask.views import MethodView
+from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint
 
-from rest.schema.message import MessageSchemaOK
-from rest.schema.user import UserSchema
-from rest.service.UserService import createUser
+from rest.schema.auth import UserSchema
+from rest.service.UserService import getAllUsers
 
 blp = Blueprint('user', __name__, url_prefix='users', description='Operations on User')
 
@@ -11,8 +11,7 @@ blp = Blueprint('user', __name__, url_prefix='users', description='Operations on
 @blp.route('/')
 class UserBlueprint(MethodView):
 
-    @blp.arguments(UserSchema)
-    @blp.response(201, MessageSchemaOK)
-    def post(self, user):
-        createUser(user)
-        return {'status': 'OK'}
+    @jwt_required()
+    @blp.response(200, UserSchema(many=True))
+    def get(self):
+        return getAllUsers()
